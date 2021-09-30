@@ -5,22 +5,39 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "commit": "git-cz",
+    "release": "standard-version"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "commitizen": "^4.2.4",
     "eslint-import-resolver-webpack": "^0.13.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "devDependencies": {
+    "@commitlint/cli": "^13.2.0",
+    "@commitlint/config-conventional": "^13.2.0",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^6.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^6.3.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.24.2",
@@ -28,10 +45,13 @@
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^5.3.2",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.3.0",
     "node-sass": "^6.0.1",
     "sass-loader": "^12.1.0",
     "source-map-loader": "^3.0.0",
+    "standard-version": "^9.3.1",
     "typescript": "^4.4.3",
     "webpack": "^5.54.0",
     "webpack-cli": "^4.8.0",
@@ -39,8 +59,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
-      "pre-push": "npm test"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $GIT_PARAMS"
     }
+  },
+  "lint-staged": {
+    "src/**/*.{tsx,ts}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
